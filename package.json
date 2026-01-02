@@ -2,6 +2,8 @@
   "name": "typewriter-performance",
   "private": true,
   "version": "1.0.0",
+  "description": "A modern typewriter application for performance use with realistic sound effects",
+  "author": "Performance Typewriter Team",
   "type": "module",
   "main": "electron/main.cjs",
   "homepage": "./",

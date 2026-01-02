@@ -1,6 +1,10 @@
 # Performance Typewriter
 
-A modern typewriter application for performance use, built with React, Vite, and Electron.
+A modern typewriter application designed specifically for performing Leroy Anderson's "The Typewriter" on laptop computers.
+
+## Purpose
+
+This application was created for the 3rd Regular Concert of Orchestra de Arte on January 3rd, 2026, to enable laptop-based performance of Leroy Anderson's famous orchestral piece "The Typewriter." The app is freely available for anyone to use.
 
 ## Features
 
@@ -64,6 +68,14 @@ The app will work without sound files but won't produce audio feedback.
    - Space: Winding sound
    - Backspace: Type sound
 
+## Performance Notes
+
+For optimal performance of Leroy Anderson's "The Typewriter":
+- Use the desktop app for better audio reliability
+- Ensure all sound files are properly loaded before performance
+- Test audio levels and timing with your orchestra
+- The visual display can be projected for audience engagement
+
 ## Tech Stack
 
 - **Frontend**: React 19, Vite
@@ -81,4 +93,4 @@ The app can be built for multiple platforms:
 
 ## License
 
-MIT License
+MIT License - Free for anyone to use

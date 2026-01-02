@@ -20,28 +20,35 @@ function App() {
         // AudioContext 생성
         audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)()
         
+        // Electron 환경 감지
+        const isElectron = window.navigator.userAgent.includes('Electron')
+        const basePath = isElectron ? './sounds/' : '/sounds/'
+        
+        console.log('Environment:', isElectron ? 'Electron' : 'Web')
+        console.log('Base path:', basePath)
+        
         // type1 사운드 로드
-        const type1Response = await fetch('/sounds/type1.mp3')
+        const type1Response = await fetch(basePath + 'type1.mp3')
         const type1ArrayBuffer = await type1Response.arrayBuffer()
         type1SoundRef.current = await audioContextRef.current.decodeAudioData(type1ArrayBuffer)
         
         // type2 사운드 로드
-        const type2Response = await fetch('/sounds/type2.mp3')
+        const type2Response = await fetch(basePath + 'type2.mp3')
         const type2ArrayBuffer = await type2Response.arrayBuffer()
         type2SoundRef.current = await audioContextRef.current.decodeAudioData(type2ArrayBuffer)
         
         // type3 사운드 로드
-        const type3Response = await fetch('/sounds/type3.mp3')
+        const type3Response = await fetch(basePath + 'type3.mp3')
         const type3ArrayBuffer = await type3Response.arrayBuffer()
         type3SoundRef.current = await audioContextRef.current.decodeAudioData(type3ArrayBuffer)
         
         // 벨음 로드
-        const bellResponse = await fetch('/sounds/bell.mp3')
+        const bellResponse = await fetch(basePath + 'bell.mp3')
         const bellArrayBuffer = await bellResponse.arrayBuffer()
         bellSoundRef.current = await audioContextRef.current.decodeAudioData(bellArrayBuffer)
         
         // winding 사운드 로드
-        const windingResponse = await fetch('/sounds/winding.mp3')
+        const windingResponse = await fetch(basePath + 'winding.mp3')
         const windingArrayBuffer = await windingResponse.arrayBuffer()
         windingSoundRef.current = await audioContextRef.current.decodeAudioData(windingArrayBuffer)
         
@@ -49,6 +56,7 @@ function App() {
         console.log('사운드 파일이 로드되었습니다.')
       } catch (error) {
         console.error('사운드 로드 실패:', error)
+        console.error('Error details:', error.message)
         // 사운드 파일이 없어도 프로그램은 동작하도록
         setIsLoaded(true)
       }
@@ -59,13 +67,22 @@ function App() {
 
   // 사운드 재생 함수
   const playSound = (audioBuffer) => {
-    if (!audioContextRef.current || !audioBuffer) return
+    if (!audioContextRef.current || !audioBuffer) {
+      console.warn('AudioContext or buffer not available')
+      return
+    }
     
     try {
+      // AudioContext 상태 확인 및 재개
+      if (audioContextRef.current.state === 'suspended') {
+        audioContextRef.current.resume()
+      }
+      
       const source = audioContextRef.current.createBufferSource()
       source.buffer = audioBuffer
       source.connect(audioContextRef.current.destination)
       source.start()
+      console.log('Sound played successfully')
     } catch (error) {
       console.error('사운드 재생 실패:', error)
     }
@@ -104,12 +121,17 @@ function App() {
 
   // 키 입력 처리
   const handleKeyPress = (event) => {
-    if (!isLoaded) return
-
+    // AudioContext 초기화 및 활성화
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)()
+    }
+    
     // AudioContext가 suspended 상태면 resume
     if (audioContextRef.current?.state === 'suspended') {
       audioContextRef.current.resume()
     }
+
+    if (!isLoaded) return
 
     if (event.key === 'Enter') {
       // 엔터키 - 벨음 재생 및 키 표시
@@ -130,8 +152,13 @@ function App() {
     }
   }
 
-  // 화면 클릭 시 포커스
+  // 화면 클릭 시 포커스 및 AudioContext 활성화
   const handleClick = () => {
+    // AudioContext 초기화 및 활성화
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)()
+    }
+    
     if (audioContextRef.current?.state === 'suspended') {
       audioContextRef.current.resume()
     }

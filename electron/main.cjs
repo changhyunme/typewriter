@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require('electron')
+const { app, BrowserWindow, Menu, protocol } = require('electron')
 const path = require('path')
 const fs = require('fs')
 
@@ -18,11 +18,11 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       enableRemoteModule: false,
-      webSecurity: true
+      webSecurity: false, // 로컬 파일 접근을 위해 비활성화
+      allowRunningInsecureContent: true
     },
     titleBarStyle: 'hiddenInset', // macOS에서 더 나은 타이틀바
-    show: false, // 준비될 때까지 숨김
-    icon: path.join(__dirname, '../public/favicon.ico')
+    show: false // 준비될 때까지 숨김
   })
 
   // 개발 모드에서는 localhost, 프로덕션에서는 빌드된 파일 로드
@@ -145,7 +145,17 @@ function createMenu() {
 }
 
 // 앱이 준비되면 윈도우 생성
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+  // 프로덕션 모드에서 정적 파일 서빙을 위한 프로토콜 등록
+  if (!isDev) {
+    protocol.registerFileProtocol('file', (request, callback) => {
+      const pathname = decodeURI(request.url.replace('file:///', ''))
+      callback(pathname)
+    })
+  }
+  
+  createWindow()
+})
 
 // 모든 윈도우가 닫히면 앱 종료 (macOS 제외)
 app.on('window-all-closed', () => {
