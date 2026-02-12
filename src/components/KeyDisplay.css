@@ -1,0 +1,162 @@
+/* 키 디스플레이 컨테이너 */
+.key-display {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: 16px;
+}
+
+/* 리플 이펙트 컨테이너 */
+.key-ripple-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 리플 이펙트 */
+.key-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  opacity: 0.6;
+  animation: rippleExpand 0.8s cubic-bezier(0, 0.5, 0.5, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes rippleExpand {
+  0% {
+    width: 20px;
+    height: 20px;
+    opacity: 0.6;
+  }
+  100% {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+}
+
+/* 메인 키 표시 영역 */
+.key-display .key-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 160px;
+  z-index: 1;
+}
+
+.key-display .current-key {
+  font-family: 'Inter', sans-serif;
+  font-size: 8rem;
+  font-weight: 700;
+  color: #ffffff;
+  animation: keyPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+  letter-spacing: -0.05em;
+}
+
+/* 키 카테고리 라벨 */
+.key-category {
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant: all-small-caps;
+  letter-spacing: 0.15em;
+  z-index: 1;
+  transition: color 0.2s ease;
+}
+
+/* 키 히스토리 트레일 */
+.key-history {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  max-width: 100%;
+  padding: 0 16px;
+  z-index: 1;
+  min-height: 40px;
+}
+
+.key-history-item {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  padding: 2px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  user-select: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  animation: historyItemIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes historyItemIn {
+  0% {
+    transform: scale(0.5) translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes keyPop {
+  0% {
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05) translateY(-5px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .key-display .current-key {
+    font-size: 5rem;
+  }
+
+  .key-history-item {
+    font-size: 1.125rem;
+    padding: 2px 6px;
+  }
+
+  .key-history {
+    gap: 4px;
+  }
+
+  @keyframes rippleExpand {
+    0% {
+      width: 20px;
+      height: 20px;
+      opacity: 0.6;
+    }
+    100% {
+      width: 200px;
+      height: 200px;
+      opacity: 0;
+    }
+  }
+}

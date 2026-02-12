@@ -1,0 +1,187 @@
+/* 퍼포먼스 컨트롤 바 */
+.performance-controls {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 24px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid #27272a;
+  z-index: 100;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.performance-controls.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.performance-controls.hidden {
+  opacity: 0;
+  transform: translateY(100%);
+  pointer-events: none;
+}
+
+/* 컨트롤 그룹 */
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 볼륨 컨트롤 */
+.volume-control {
+  min-width: 160px;
+}
+
+.control-icon {
+  font-size: 1rem;
+  user-select: none;
+}
+
+.volume-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #a1a1aa;
+  min-width: 32px;
+  text-align: right;
+  user-select: none;
+}
+
+/* 볼륨 슬라이더 커스텀 스타일 */
+.volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80px;
+  height: 4px;
+  background: #27272a;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.volume-slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+}
+
+.volume-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  background: #27272a;
+  border-radius: 2px;
+}
+
+.volume-slider::-moz-range-track {
+  height: 4px;
+  background: #27272a;
+  border-radius: 2px;
+  border: none;
+}
+
+/* 컨트롤 버튼 */
+.control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #18181b;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  user-select: none;
+}
+
+.control-button:hover {
+  background: #27272a;
+  border-color: #3f3f46;
+}
+
+.control-button:active {
+  background: #3f3f46;
+}
+
+/* 퍼포먼스 모드 종료 플로팅 버튼 */
+.performance-exit-button {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(24, 24, 27, 0.8);
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  font-size: 0.875rem;
+  cursor: pointer;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease, background 0.2s ease;
+  opacity: 0.4;
+  backdrop-filter: blur(8px);
+  user-select: none;
+}
+
+.performance-exit-button:hover {
+  opacity: 1;
+  background: rgba(39, 39, 42, 0.9);
+  border-color: #3f3f46;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .performance-controls {
+    gap: 8px;
+    padding: 0 12px;
+  }
+
+  .volume-control {
+    min-width: 120px;
+  }
+
+  .volume-slider {
+    width: 60px;
+  }
+
+  .control-button {
+    width: 32px;
+    height: 32px;
+    font-size: 0.875rem;
+  }
+}
